@@ -1,0 +1,44 @@
+name: Integration
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  # TODO: add integration tests for snapcraft, charmcraft, etc
+
+  juju:
+    name: Juju
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        channel:
+        - { juju: '2.9', lxd: latest/stable }
+        - { juju: '3.0', lxd: latest/stable }
+
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup LXD
+      uses: ./
+      with:
+        channel: ${{ matrix.channel.lxd }}
+
+    - name: Install Juju 2.9
+      if: matrix.channel.juju == '2.9'
+      run: |
+        sudo snap install juju --classic --channel=2.9/stable
+
+    - name: Install Juju 3.0
+      if: matrix.channel.juju == '3.0'
+      run: |
+        sudo snap install juju --channel=3.0/stable
+        mkdir -p ~/.local/share
+        mkdir -p ~/.ssh
+        sudo snap connect juju:ssh-public-keys
+
+    - name: Bootstrap
+      run: |
+        set -x
+        juju bootstrap lxd c
+        juju switch controller
+        juju status
