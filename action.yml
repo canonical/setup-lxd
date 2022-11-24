@@ -23,11 +23,14 @@ runs:
     - name: Initialise LXD
       shell: bash
       run: |
-        set -x
         sudo lxd waitready
         sudo lxd init --auto
-        sudo chmod a+wr /var/snap/lxd/common/lxd/unix.socket
-        lxc network set lxdbr0 ipv6.address none
+
+    - name: Set up permissions for socket
+      shell: bash
+      run: |
+        sudo snap set lxd daemon.group=adm
+        sudo snap restart lxd
 
     - name: Configure firewall
       shell: bash
