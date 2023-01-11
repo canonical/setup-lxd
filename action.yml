@@ -14,7 +14,7 @@ runs:
       shell: bash
       run: |
         set -x
-        if snap info lxd | grep "installed"; then
+        if snap info lxd | grep "^installed"; then
           sudo snap refresh lxd --channel=${{ inputs.channel }}
         else
           sudo snap install lxd --channel=${{ inputs.channel }}
