@@ -1,6 +1,6 @@
 # setup-lxd
 
-A GitHub Action installs and configures the LXD snap on a runner.
+A GitHub Action which installs and configures the LXD snap on a runner.
 
 It will default install LXD from the `latest/stable` snap channel.
 You can specify a different channel using the `channel` input
