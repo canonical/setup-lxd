@@ -5,19 +5,30 @@ inputs:
     description: 'Snap channel to install LXD from'
     required: false
     default: 'latest/stable'
+  refresh:
+    description: 'Refresh installed LXD from'
+    required: false
+    default: 'true'
 
 runs:
   using: "composite"
   steps:
 
-    - name: Install/refresh LXD snap
+    - name: Install LXD snap
       shell: bash
       run: |
         set -x
         if snap info lxd | grep "^installed"; then
-          sudo snap refresh lxd --channel=${{ inputs.channel }}
+          echo "LXD has been installed already, nothing to do."
         else
           sudo snap install lxd --channel=${{ inputs.channel }}
+        fi
+
+    - name: Refresh LXD snap
+      shell: bash
+      run: |
+        if ( "${{ inputs.refresh }}" == "true" ) ; then
+          sudo snap refresh lxd --channel=${{ inputs.channel }}
         fi
 
     - name: Initialise LXD
