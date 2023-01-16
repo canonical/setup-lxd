@@ -2,9 +2,9 @@
 
 A GitHub Action which installs and configures the LXD snap on a runner.
 
-It will default install LXD from the `latest/stable` snap channel. You can specify a different channel using the `channel` input. (See `snap info lxd` for a list of available channels).
+By default, this action will install LXD from the `latest/stable` snap channel. You can specify a different channel using the `channel` input. (See `snap info lxd` for a list of available channels).
 
-The action will also refresh LXD if it is already installed on a runner,
+The action will also refresh LXD if it is already installed on a runner from SNAP,
 it can be skipped using the option 'refresh: false'.
 
 ## Example usage
