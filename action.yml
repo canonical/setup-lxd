@@ -6,7 +6,7 @@ inputs:
     required: false
     default: 'latest/stable'
   refresh:
-    description: 'Refresh installed LXD from SNAP'
+    description: 'Refresh installed LXD from snap'
     required: false
     default: 'true'
 
@@ -22,20 +22,20 @@ runs:
           echo "LXD has been installed from package already."
 
         elif snap info lxd | grep "^installed"; then
-          echo "LXD has been installed from SNAP already."
+          echo "LXD has been installed from snap already."
 
           if ( "${{ inputs.refresh }}" == "true" ) ; then
-            echo "Updating LXD from SNAP (channel=${{ inputs.channel }})"
+            echo "Updating LXD from snap (channel=${{ inputs.channel }})"
             sudo snap refresh lxd --channel=${{ inputs.channel }}
           else
-            echo "Skipping LXD update from SNAP (due to refresh=${{ inputs.refresh }})"
+            echo "Skipping LXD update from snap (due to refresh=${{ inputs.refresh }})"
           fi
 
         elif which lxd; then
           echo "LXD is locally available (installed from sources)."
 
         else
-          echo "LXD is missing, installing from SNAP (channel=${{ inputs.channel }})."
+          echo "LXD is missing, installing from snap (channel=${{ inputs.channel }})."
           sudo snap install lxd --channel=${{ inputs.channel }}
         fi
 
