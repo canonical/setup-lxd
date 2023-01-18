@@ -23,7 +23,7 @@ and then this action will install/refresh LXD from the specified channel.
 ## Example usage
 
 ```yaml
-name: "Install LXD 5.0"
+name: "Install latest LXD"
 on: push
 jobs:
   job1:
@@ -33,7 +33,7 @@ jobs:
     - name: Setup LXD
       uses: canonical/setup-lxd@[version]
       with:
-        channel: 5.0/stable  # installs LXD 5.0.x
+        channel: latest/stable  # switch from distro's LTS channel to latest/stable
 
     - name: Launch container
       run: |
@@ -50,7 +50,7 @@ jobs:
 
     - name: Setup LXD
       uses: canonical/setup-lxd@[version]
-      # uses pre-installed LXD snap (v4.0.9)
+      # uses pre-installed LXD snap (22.04 comes with 5.0/stable)
 
     - name: Launch container
       run: |
