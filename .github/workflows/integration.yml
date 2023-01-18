@@ -34,7 +34,7 @@ jobs:
         sudo snap install juju --channel=3.0/stable
         mkdir -p ~/.local/share
         mkdir -p ~/.ssh
-        sudo snap connect juju:ssh-public-keys
+        sudo snap connect juju:ssh-keys
 
     - name: Bootstrap
       run: |
