@@ -1,0 +1,62 @@
+name: Test
+on: [push, pull_request, workflow_dispatch]
+jobs:
+
+  smoke:
+    name: Smoke
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup LXD
+        uses: ./
+        with:
+          channel: latest/stable
+
+      - name: Launch container
+        run: |
+          lxc launch ubuntu:
+
+  channel:
+    name: Channel
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup LXD
+        uses: ./
+        with:
+          channel: 5.0/stable
+
+      - name: Check LXD version
+        shell: bash
+        run: |
+          [[ $(lxd version) == 5.0* ]]
+
+      - name: Launch container
+        run: |
+          lxc launch ubuntu:
+
+  preinstalled:
+    name: Preinstalled
+    runs-on: ubuntu-20.04
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup LXD
+        uses: ./
+
+      - name: Check LXD version
+        shell: bash
+        run: |
+          [[ $(lxd version) == 4.0.9 ]]
+
+      - name: Launch container
+        run: |
+          lxc launch ubuntu:

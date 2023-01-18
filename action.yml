@@ -4,13 +4,21 @@ inputs:
   channel:
     description: 'Snap channel to install LXD from'
     required: false
-    default: 'latest/stable'
 
 runs:
   using: "composite"
   steps:
 
+    - name: Install LXD if not present
+      if: "${{ github.event.inputs.channel == '' }}"
+      shell: bash
+      run: |
+        if ! snap info lxd | grep "installed"; then
+          sudo snap install lxd
+        fi
+
     - name: Install/refresh LXD snap
+      if: "${{ github.event.inputs.channel != '' }}"
       shell: bash
       run: |
         set -x
