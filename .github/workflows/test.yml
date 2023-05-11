@@ -30,12 +30,13 @@ jobs:
       - name: Setup LXD
         uses: ./
         with:
-          channel: 5.0/stable
+          # use a channel that is not the default on ubuntu-latest
+          channel: 4.0/stable
 
       - name: Check LXD version
         shell: bash
         run: |
-          [[ $(lxd version) == 5.0* ]]
+          [[ $(lxd version) == 4.0* ]]
 
       - name: Launch container
         run: |
