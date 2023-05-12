@@ -61,3 +61,31 @@ jobs:
       - name: Launch container
         run: |
           lxc launch ubuntu:
+
+  latest-stable:
+    name: Install latest/stable
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Install dependencies
+        run: |
+          sudo snap install yq
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup LXD
+        uses: ./
+        with:
+          channel: latest/stable
+
+      - name: Check LXD version
+        shell: bash
+        run: |
+          set -eux
+          LATEST_STABLE_VERSION=$(snap info lxd | yq '.channels.latest/stable' | awk -F'-' '{print $1}')
+          [[ $(lxd version) == $LATEST_STABLE_VERSION ]]
+
+      - name: Launch container
+        run: |
+          lxc launch ubuntu:
