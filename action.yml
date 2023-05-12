@@ -10,7 +10,7 @@ runs:
   steps:
 
     - name: Install LXD if not present
-      if: "${{ github.event.inputs.channel == '' }}"
+      if: "${{ inputs.channel == '' }}"
       shell: bash
       run: |
         if ! snap info lxd | grep "installed"; then
@@ -18,7 +18,7 @@ runs:
         fi
 
     - name: Install/refresh LXD snap
-      if: "${{ github.event.inputs.channel != '' }}"
+      if: "${{ inputs.channel != '' }}"
       shell: bash
       run: |
         set -x
