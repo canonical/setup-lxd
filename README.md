@@ -15,7 +15,7 @@ You can specify a snap channel with the `channel` input:
 ```yaml
 uses: canonical/setup-lxd
 with:
-  channel: 5.2/candidate
+  channel: 5.21/stable
 ```
 and then this action will install/refresh LXD from the specified channel.
 
