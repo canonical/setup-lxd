@@ -21,17 +21,16 @@ runs:
           sudo snap install lxd --channel=${{ inputs.channel }}
         fi
 
+    - name: Set up permissions for socket
+      shell: bash
+      run: |
+        sudo snap set lxd daemon.group=adm
+
     - name: Initialise LXD
       shell: bash
       run: |
         sudo lxd waitready
         sudo lxd init --auto
-
-    - name: Set up permissions for socket
-      shell: bash
-      run: |
-        sudo snap set lxd daemon.group=adm
-        sudo snap restart lxd
 
     - name: Configure firewall
       shell: bash
