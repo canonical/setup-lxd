@@ -67,10 +67,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Install dependencies
-        run: |
-          sudo snap install yq
-
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -83,8 +79,13 @@ jobs:
         shell: bash
         run: |
           set -eux
-          LATEST_STABLE_VERSION=$(snap info lxd | yq '.channels.latest/stable' | awk -F'-' '{print $1}')
-          [[ $(lxd version) == $LATEST_STABLE_VERSION ]]
+          TRACKING="$(snap info lxd | awk '/^tracking: / {print $2}' | cut -d/ -f1,2)"
+          INSTALLED="$(snap info lxd | awk '/^installed: / {print $2}' | cut -d- -f1)"
+
+          [[ "${TRACKING}" == "latest/stable" ]]
+
+          # XXX: remove LTS before comparison: "5.21.1 LTS" -> "5.21.1"
+          [[ $(lxd version | cut -d " " -f1) == "${INSTALLED}" ]]
 
       - name: Launch container
         run: |
