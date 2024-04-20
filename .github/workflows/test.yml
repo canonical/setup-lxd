@@ -42,26 +42,6 @@ jobs:
         run: |
           lxc launch ubuntu:
 
-  preinstalled:
-    name: Preinstalled
-    runs-on: ubuntu-20.04
-    steps:
-
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup LXD
-        uses: ./
-
-      - name: Check LXD version
-        shell: bash
-        run: |
-          [[ $(lxd version) == 4.0.9 ]]
-
-      - name: Launch container
-        run: |
-          lxc launch ubuntu:
-
   latest-stable:
     name: Install latest/stable
     runs-on: ubuntu-latest
