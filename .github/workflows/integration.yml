@@ -11,7 +11,7 @@ jobs:
       matrix:
         channel:
         - { juju: '2.9', lxd: latest/stable }
-        - { juju: '3.0', lxd: latest/stable }
+        - { juju: '3', lxd: latest/stable }
 
     steps:
 
@@ -28,10 +28,10 @@ jobs:
       run: |
         sudo snap install juju --classic --channel=2.9/stable
 
-    - name: Install Juju 3.0
-      if: matrix.channel.juju == '3.0'
+    - name: Install Juju 3
+      if: matrix.channel.juju == '3'
       run: |
-        sudo snap install juju --channel=3.0/stable
+        sudo snap install juju --channel=3/stable
         mkdir -p ~/.local/share
         mkdir -p ~/.ssh
         sudo snap connect juju:ssh-keys
