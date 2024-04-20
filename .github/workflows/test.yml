@@ -31,12 +31,12 @@ jobs:
         uses: ./
         with:
           # use a channel that is not the default on ubuntu-latest
-          channel: 4.0/stable
+          channel: 5.21/candidate
 
       - name: Check LXD version
         shell: bash
         run: |
-          [[ $(lxd version) == 4.0* ]]
+          [[ $(lxd version) == 5.21* ]]
 
       - name: Launch container
         run: |
