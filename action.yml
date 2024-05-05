@@ -2,43 +2,35 @@ name: 'Setup LXD'
 description: 'Install and configure LXD on the runner'
 inputs:
   channel:
+    default: 'latest/candidate'
     description: 'Snap channel to install LXD from'
     required: false
+    type: string
 
 runs:
   using: "composite"
   steps:
 
-    - name: Install LXD if not present
-      if: "${{ inputs.channel == '' }}"
-      shell: bash
-      run: |
-        if ! snap info lxd | grep "installed"; then
-          sudo snap install lxd
-        fi
-
     - name: Install/refresh LXD snap
-      if: "${{ inputs.channel != '' }}"
       shell: bash
       run: |
         set -x
-        if snap info lxd | grep "installed"; then
+        if snap list lxd; then
           sudo snap refresh lxd --channel=${{ inputs.channel }}
         else
           sudo snap install lxd --channel=${{ inputs.channel }}
         fi
+
+    - name: Set up permissions for socket
+      shell: bash
+      run: |
+        sudo snap set lxd daemon.group=adm
 
     - name: Initialise LXD
       shell: bash
       run: |
         sudo lxd waitready
         sudo lxd init --auto
-
-    - name: Set up permissions for socket
-      shell: bash
-      run: |
-        sudo snap set lxd daemon.group=adm
-        sudo snap restart lxd
 
     - name: Configure firewall
       shell: bash

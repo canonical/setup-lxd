@@ -31,32 +31,12 @@ jobs:
         uses: ./
         with:
           # use a channel that is not the default on ubuntu-latest
-          channel: 4.0/stable
+          channel: 5.21/candidate
 
       - name: Check LXD version
         shell: bash
         run: |
-          [[ $(lxd version) == 4.0* ]]
-
-      - name: Launch container
-        run: |
-          lxc launch ubuntu:
-
-  preinstalled:
-    name: Preinstalled
-    runs-on: ubuntu-20.04
-    steps:
-
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup LXD
-        uses: ./
-
-      - name: Check LXD version
-        shell: bash
-        run: |
-          [[ $(lxd version) == 4.0.9 ]]
+          [[ $(lxd version) == 5.21* ]]
 
       - name: Launch container
         run: |
@@ -66,10 +46,6 @@ jobs:
     name: Install latest/stable
     runs-on: ubuntu-latest
     steps:
-
-      - name: Install dependencies
-        run: |
-          sudo snap install yq
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -83,8 +59,13 @@ jobs:
         shell: bash
         run: |
           set -eux
-          LATEST_STABLE_VERSION=$(snap info lxd | yq '.channels.latest/stable' | awk -F'-' '{print $1}')
-          [[ $(lxd version) == $LATEST_STABLE_VERSION ]]
+          TRACKING="$(snap info lxd | awk '/^tracking: / {print $2}' | cut -d/ -f1,2)"
+          INSTALLED="$(snap info lxd | awk '/^installed: / {print $2}' | cut -d- -f1)"
+
+          [[ "${TRACKING}" == "latest/stable" ]]
+
+          # XXX: remove LTS before comparison: "5.21.1 LTS" -> "5.21.1"
+          [[ $(lxd version | cut -d " " -f1) == "${INSTALLED}" ]]
 
       - name: Launch container
         run: |
