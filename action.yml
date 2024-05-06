@@ -6,6 +6,11 @@ inputs:
     description: 'Snap channel to install LXD from'
     required: false
     type: string
+  group:
+    default: 'adm'
+    description: 'Name of the group that will have access to LXD'
+    required: false
+    type: string
 
 runs:
   using: "composite"
@@ -24,7 +29,7 @@ runs:
     - name: Set up permissions for socket
       shell: bash
       run: |
-        sudo snap set lxd daemon.group=adm
+        sudo snap set lxd daemon.group=${{ inputs.group }}
 
     - name: Initialise LXD
       shell: bash
