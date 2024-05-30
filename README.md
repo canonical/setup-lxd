@@ -44,7 +44,7 @@ jobs:
 
     - name: Launch container
       run: |
-        lxc launch ubuntu:22.04 u1
+        lxc launch ubuntu:24.04 u1
 ```
 
 ## Maintainers
