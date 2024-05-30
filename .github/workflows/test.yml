@@ -17,7 +17,7 @@ jobs:
 
       - name: Launch container
         run: |
-          lxc launch ubuntu:
+          lxc launch ubuntu-minimal:
 
   channel:
     name: Channel
@@ -40,7 +40,7 @@ jobs:
 
       - name: Launch container
         run: |
-          lxc launch ubuntu:
+          lxc launch ubuntu-minimal:
 
   latest-stable:
     name: Install latest/stable
@@ -69,4 +69,4 @@ jobs:
 
       - name: Launch container
         run: |
-          lxc launch ubuntu:
+          lxc launch ubuntu-minimal:
