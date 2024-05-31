@@ -10,8 +10,8 @@ jobs:
       fail-fast: false
       matrix:
         channel:
-        - { juju: '2.9', lxd: latest/stable }
-        - { juju: '3', lxd: latest/stable }
+        - { juju: '2.9', lxd: 5.21/edge }
+        - { juju: '3', lxd: latest/edge }
 
     steps:
 
