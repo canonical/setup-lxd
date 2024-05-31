@@ -29,6 +29,10 @@ runs:
     - name: Set up permissions for socket
       shell: bash
       run: |
+        while [ -n "$(snap changes lxd 2>/dev/null | awk '/^[0-9]+/ {if ($2 != "Done") print $2 }')" ]; do
+          echo "Waiting for snap changes on LXD to finish"
+          sleep 1
+        done
         sudo snap set lxd daemon.group=${{ inputs.group }}
 
     - name: Initialise LXD
