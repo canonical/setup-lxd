@@ -5,13 +5,16 @@ jobs:
 
   juju:
     name: Juju
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         channel:
         - { juju: '2.9', lxd: 5.21/edge }
         - { juju: '3', lxd: latest/edge }
+        os:
+        - 22.04
+        - 24.04
 
     steps:
 
@@ -23,12 +26,12 @@ jobs:
       with:
         channel: ${{ matrix.channel.lxd }}
 
-    - name: Install Juju 2.9
+    - name: Install Juju 2.9 (${{ matrix.os }})
       if: matrix.channel.juju == '2.9'
       run: |
         sudo snap install juju --classic --channel=2.9/stable
 
-    - name: Install Juju 3
+    - name: Install Juju 3 (${{ matrix.os }})
       if: matrix.channel.juju == '3'
       run: |
         sudo snap install juju --channel=3/stable
