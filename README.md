@@ -7,13 +7,13 @@ A GitHub Action which installs and configures the LXD snap on a runner.
 
 When run with no inputs:
 ```yaml
-uses: canonical/setup-lxd
+uses: canonical/setup-lxd@main
 ```
 this action will install or refresh the LXD snap using the `latest/candidate` channel.
 
 You can specify a different `group` membership required to access LXD:
 ```yaml
-uses: canonical/setup-lxd
+uses: canonical/setup-lxd@main
 with:
   group: lxd
 ```
@@ -21,7 +21,7 @@ and then users of that group will have full control over LXD.
 
 You can specify a snap channel with the `channel` input:
 ```yaml
-uses: canonical/setup-lxd
+uses: canonical/setup-lxd@main
 with:
   channel: 5.21/stable
 ```
