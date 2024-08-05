@@ -45,5 +45,7 @@ runs:
       shell: bash
       run: |
         set -x
-        sudo iptables -I DOCKER-USER -i lxdbr0 -j ACCEPT
-        sudo iptables -I DOCKER-USER -o lxdbr0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+        if sudo iptables -L DOCKER-USER; then
+          sudo iptables -I DOCKER-USER -i lxdbr0 -j ACCEPT
+          sudo iptables -I DOCKER-USER -o lxdbr0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+        fi
