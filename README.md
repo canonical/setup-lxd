@@ -49,4 +49,4 @@ jobs:
 
 ## Maintainers
 
-- [barrettj12](https://github.com/barrettj12)
+- [simondeziel](https://github.com/simondeziel/)
