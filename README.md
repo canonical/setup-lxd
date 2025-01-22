@@ -49,4 +49,5 @@ jobs:
 
 ## Maintainers
 
-- [simondeziel](https://github.com/simondeziel/)
+- [Simon Deziel](https://github.com/simondeziel/)
+- [Tom Parrott](https://github.com/tomponline/)
