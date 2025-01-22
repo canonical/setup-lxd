@@ -40,6 +40,7 @@ runs:
       run: |
         sudo lxd waitready
         sudo lxd init --auto
+        sudo lxc config set images.compression_algorithm none
 
     - name: Configure firewall
       shell: bash
