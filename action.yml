@@ -11,6 +11,11 @@ inputs:
     description: 'Name of the group that will have access to LXD'
     required: false
     type: string
+  preseed:
+    default: ''
+    description: 'Preseed to use when initialising LXD'
+    required: false
+    type: string
 
 runs:
   using: "composite"
@@ -37,10 +42,17 @@ runs:
 
     - name: Initialise LXD
       shell: bash
+      env:
+        # Use an environment variable to have correct quoting and escaping
+        INPUT_PRESEED: ${{ inputs.preseed }}
       run: |
         sudo lxd waitready
-        sudo lxd init --auto
-        sudo lxc config set images.compression_algorithm none
+        if [[ "${INPUT_PRESEED}" == "" ]]; then
+          sudo lxd init --auto
+          sudo lxc config set images.compression_algorithm none
+        else
+          sudo lxd init --preseed <<< "${INPUT_PRESEED}"
+        fi
 
     - name: Configure firewall
       shell: bash
