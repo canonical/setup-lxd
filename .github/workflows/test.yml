@@ -70,3 +70,62 @@ jobs:
       - name: Launch container
         run: |
           lxc launch ubuntu-minimal:
+
+  preseed:
+    name: Preseed
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup LXD
+        uses: ./
+        with:
+          # Preseed taken from running the lxd init interactively on a fresh
+          # noble install, keeping all default values (except for the config,
+          # where we set the compression_algorithm to none for performance
+          # reasons) and printing the preseed at the end
+          preseed: |
+            config:
+              images.compression_algorithm: none
+            networks:
+            - config:
+                ipv4.address: auto
+                ipv6.address: auto
+              description: ""
+              name: lxdbr0
+              type: ""
+              project: default
+            storage_pools:
+            - config:
+                size: 5GiB
+              description: ""
+              name: default
+              driver: zfs
+            storage_volumes: []
+            profiles:
+            - config: {}
+              description: ""
+              devices:
+                eth0:
+                  name: eth0
+                  network: lxdbr0
+                  type: nic
+                root:
+                  path: /
+                  pool: default
+                  type: disk
+              name: default
+            projects: []
+            cluster: null
+
+      # lxd --auto uses a dir storage pool by default, so check if we have zfs
+      - name: Check storage pool type
+        shell: bash
+        run: |
+          lxc storage show default | grep -xF 'driver: zfs'
+
+      - name: Launch container
+        run: |
+          lxc launch ubuntu-minimal:
