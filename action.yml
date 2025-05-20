@@ -66,11 +66,11 @@ runs:
         IFS=',' read -ra bridges <<< "${{ inputs.bridges }}"
         for i in "${bridges[@]}"; do
           bridge=$(echo "$i" | xargs)  # Trim whitespace
-          if sudo iptables -L DOCKER-USER; then
+          if sudo iptables -nL DOCKER-USER; then
             sudo iptables  -I DOCKER-USER -i "$bridge" -j ACCEPT
             sudo iptables  -I DOCKER-USER -o "$bridge" -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
           fi
-          if sudo ip6tables -L DOCKER-USER; then
+          if sudo ip6tables -nL DOCKER-USER; then
             sudo ip6tables -I DOCKER-USER -i "$bridge" -j ACCEPT
             sudo ip6tables -I DOCKER-USER -o "$bridge" -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
           fi
