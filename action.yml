@@ -16,6 +16,11 @@ inputs:
     description: 'Preseed to use when initialising LXD'
     required: false
     type: string
+  bridges:
+    default: 'lxdbr0'
+    description: 'Comma-separated list of LXD bridges to allow through the firewall'
+    required: false
+    type: string
 
 runs:
   using: "composite"
@@ -59,6 +64,14 @@ runs:
       run: |
         set -x
         if sudo iptables -L DOCKER-USER; then
-          sudo iptables -I DOCKER-USER -i lxdbr0 -j ACCEPT
-          sudo iptables -I DOCKER-USER -o lxdbr0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+          IFS=',' read -ra bridges <<< "${{ inputs.bridges }}"
+          for i in "${bridges[@]}"; do
+            bridge=$(echo "$i" | xargs)  # Trim whitespace
+            set +e
+            sudo iptables  -I DOCKER-USER -i "$bridge" -j ACCEPT
+            sudo ip6tables -I DOCKER-USER -i "$bridge" -j ACCEPT
+            sudo iptables  -I DOCKER-USER -o "$bridge" -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+            sudo ip6tables -I DOCKER-USER -o "$bridge" -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+            set -e
+          done
         fi
