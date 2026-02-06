@@ -5,22 +5,18 @@ inputs:
     default: 'latest/candidate'
     description: 'Snap channel to install LXD from'
     required: false
-    type: string
   group:
     default: 'adm'
     description: 'Name of the group that will have access to LXD'
     required: false
-    type: string
   preseed:
     default: ''
     description: 'Preseed to use when initialising LXD'
     required: false
-    type: string
   bridges:
     default: 'lxdbr0'
     description: 'Comma-separated list of LXD bridges to allow through the firewall'
     required: false
-    type: string
 
 runs:
   using: "composite"
