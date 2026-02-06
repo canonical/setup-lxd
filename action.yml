@@ -31,9 +31,9 @@ runs:
       run: |
         set -x
         if snap list lxd 2> /dev/null; then
-          sudo snap refresh lxd --channel=${{ inputs.channel }}
+          sudo snap refresh lxd --channel=${{ inputs.channel }} --cohort=+
         else
-          sudo snap install lxd --channel=${{ inputs.channel }}
+          sudo snap install lxd --channel=${{ inputs.channel }} --cohort=+
         fi
 
     - name: Set up permissions for socket
