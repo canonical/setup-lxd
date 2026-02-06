@@ -1,5 +1,9 @@
 name: Integration
 on: [push, pull_request, workflow_dispatch]
+
+permissions:
+  contents: read
+
 jobs:
   # TODO: add integration tests for snapcraft, charmcraft, etc
 
