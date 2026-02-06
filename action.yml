@@ -35,6 +35,7 @@ runs:
         else
           sudo snap install lxd --channel=${{ inputs.channel }} --cohort=+
         fi
+        sudo snap refresh --hold=24h lxd
 
     - name: Set up permissions for socket
       shell: bash
