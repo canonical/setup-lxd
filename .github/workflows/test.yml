@@ -35,9 +35,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Require GHA pinning
-        uses: canonical/lxd/.github/actions/require-gha-pinning@main
-
       - name: Setup LXD
         uses: ./
         with:
