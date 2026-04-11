@@ -6,3 +6,5 @@ updates:
     schedule:
       interval: "weekly"
     target-branch: "main"
+    cooldown:
+      default-days: 7
