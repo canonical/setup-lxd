@@ -17,7 +17,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup LXD
-        uses: ./
+        uses: $/
         with:
           channel: latest/stable
 
@@ -36,7 +36,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup LXD
-        uses: ./
+        uses: $/
         with:
           # use a channel that is not the default on ubuntu-latest
           channel: 5.21/candidate
@@ -61,7 +61,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup LXD
-        uses: ./
+        uses: $/
         with:
           channel: latest/stable
 
@@ -92,7 +92,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup LXD
-        uses: ./
+        uses: $/
         with:
           # Preseed taken from running the lxd init interactively on a fresh
           # noble install, keeping all default values (except for the config,
