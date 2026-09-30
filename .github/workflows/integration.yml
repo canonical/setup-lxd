@@ -28,7 +28,7 @@ jobs:
         persist-credentials: false
 
     - name: Setup LXD
-      uses: ./
+      uses: $/
       with:
         channel: ${{ matrix.channel.lxd }}
 
